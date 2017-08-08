@@ -4,7 +4,7 @@ Ext.application({
 	requires : [ 'Ext.container.Viewport' ],
 	name : 'AM',
 
-	appFolder : 'app',
+	appFolder : 'extjs_start/app',
 
 	controllers : [ 'Users' ],
 
