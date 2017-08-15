@@ -7,8 +7,8 @@ Ext.define('AM.model.User', {
 	proxy : {
 		type : 'ajax',
 		api : {
-			read: '/TomcatTest/UsersServlet',
-			update: '/TomcatTest/UsersServlet'
+			read: '/j2ee_start/UsersServlet',
+			update: '/j2ee_start/UsersServlet'
 		},
 		// The reader is responsible for decoding the server response into a
 		// format the Store can understand
