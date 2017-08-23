@@ -4,10 +4,10 @@ Ext.define('AM.store.Users', {
 	autoLoad : true, // the Store will ask its Proxy to load that data
 	// immediately
 
-	filters : [ {
-		property : 'name',
-		value : /Ed/
-	} ],
+//	filters : [ {
+//		property : 'name',
+//		value : /Ed/
+//	} ],
 
 	sorters : [ {
 		property : 'name',
