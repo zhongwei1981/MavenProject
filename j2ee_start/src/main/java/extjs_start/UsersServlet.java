@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSONArray;
 
 import CommonTools.DB_Connection;
 import CommonTools.Log;
-import extjs_start.JSON_User;
 
 /**
  * Servlet implementation class FormServlet
@@ -28,17 +27,19 @@ public class UsersServlet extends HttpServlet {
 	private static Log log = new Log(UsersServlet.class.getSimpleName());
 	private static DB_Connection conn = DB_Connection.getInstance();
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UsersServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UsersServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -54,14 +55,13 @@ public class UsersServlet extends HttpServlet {
 			JSONArray jsonArray = new JSONArray();
 			while (rs.next()) {
 				JSON_User j_user = new JSON_User();
-				log.d("#### (%d, %s, %s)",
-						rs.getLong("id"), rs.getString("name"), rs.getString("email"));
+				log.d("#### (%d, %s, %s)", rs.getLong("id"), rs.getString("name"), rs.getString("email"));
 				j_user.setId(rs.getLong("id"));
 				j_user.setName(rs.getString("name"));
 				j_user.setEmail(rs.getString("email"));
 				jsonArray.add(j_user);
 			}
-			
+
 			String str = jsonArray.toJSONString();
 			log.d("#### response: %s", str);
 			response.getWriter().print(str);
@@ -73,10 +73,11 @@ public class UsersServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		log.d("#### doPost() start");
 
@@ -86,8 +87,7 @@ public class UsersServlet extends HttpServlet {
 		if (req.getContentType().equals("application/x-www-form-urlencoded; charset=UTF-8")) {
 			name = req.getParameter("name");
 			email = req.getParameter("email");
-		}
-		else if (req.getContentType().equals("application/json")) {
+		} else if (req.getContentType().equals("application/json")) {
 			String strJson = readJsonString(req);
 			log.d("#### strJson = " + strJson);
 
@@ -96,9 +96,7 @@ public class UsersServlet extends HttpServlet {
 			email = j_user.getEmail();
 		}
 
-		String strSQL = String.format(
-							"UPDATE [user] SET email = '%s' where name = '%s' ",
-							email, name);
+		String strSQL = String.format("UPDATE [user] SET email = '%s' where name = '%s' ", email, name);
 		log.d("#### strSQL = " + strSQL);
 		try {
 			conn.execUpdate(strSQL);
@@ -108,9 +106,10 @@ public class UsersServlet extends HttpServlet {
 			resp.getWriter().write(e.toString());
 		}
 	}
-	
+
+	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-	              throws ServletException, java.io.IOException {
+			throws ServletException, java.io.IOException {
 		log.d("#### doPut() start");
 
 		String name = "";
@@ -119,8 +118,7 @@ public class UsersServlet extends HttpServlet {
 		if (req.getContentType().equals("application/x-www-form-urlencoded; charset=UTF-8")) {
 			name = req.getParameter("name");
 			email = req.getParameter("email");
-		}
-		else if (req.getContentType().equals("application/json")) {
+		} else if (req.getContentType().equals("application/json")) {
 			String strJson = readJsonString(req);
 			log.d("#### strJson = " + strJson);
 
@@ -129,9 +127,7 @@ public class UsersServlet extends HttpServlet {
 			email = j_user.getEmail();
 		}
 
-		String strSQL = String.format(
-							"INSERT INTO [user] (name, email) VALUES ('%s', '%s') ",
-							name, email);
+		String strSQL = String.format("INSERT INTO [user] (name, email) VALUES ('%s', '%s') ", name, email);
 		log.d("#### strSQL = " + strSQL);
 		try {
 			conn.execUpdate(strSQL);
@@ -141,7 +137,8 @@ public class UsersServlet extends HttpServlet {
 			resp.getWriter().write(e.toString());
 		}
 	}
-	
+
+	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, java.io.IOException {
 		log.d("#### doDelete() start");
@@ -152,8 +149,7 @@ public class UsersServlet extends HttpServlet {
 		if (req.getContentType().equals("application/x-www-form-urlencoded; charset=UTF-8")) {
 			name = req.getParameter("name");
 			email = req.getParameter("email");
-		}
-		else if (req.getContentType().equals("application/json")) {
+		} else if (req.getContentType().equals("application/json")) {
 			String strJson = readJsonString(req);
 			log.d("#### strJson = " + strJson);
 
@@ -162,9 +158,7 @@ public class UsersServlet extends HttpServlet {
 			email = j_user.getEmail();
 		}
 
-		String strSQL = String.format(
-							"DELETE [user] where name = '%s' ",
-							name);
+		String strSQL = String.format("DELETE [user] where name = '%s' ", name);
 		log.d("#### strSQL = " + strSQL);
 		try {
 			conn.execUpdate(strSQL);
@@ -174,7 +168,7 @@ public class UsersServlet extends HttpServlet {
 			resp.getWriter().write(e.toString());
 		}
 	}
-	
+
 	private String readJsonString(HttpServletRequest request) {
 		StringBuffer strJson = new StringBuffer();
 

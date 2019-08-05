@@ -12,16 +12,16 @@ public class DB_Connection {
 	public static DB_Connection getInstance() {
 		return me;
 	}
-	
+
 	private static Log log = new Log(DB_Connection.class.getSimpleName());
-	
+
 	private static final String DB_driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String DB_url = "jdbc:sqlserver://localhost;databaseName=db_extjs_start";
 	private static final String DB_name = "sa";
-	private static final String DB_pwd = "IloveChina1981"; 
-	
+	private static final String DB_pwd = "IloveChina1981";
+
 	private Connection conn = null;
-	
+
 	private DB_Connection() {
 		try {
 			Class.forName(DB_driver);
@@ -32,19 +32,20 @@ public class DB_Connection {
 			log.e(e);
 		}
 	}
-	
+
+	@Override
 	protected void finalize() {
 		if (conn == null) {
 			return;
 		}
-		
+
 		try {
 			conn.close();
 		} catch (SQLException e) {
 			log.e(e);
 		}
 	}
-	
+
 	public ResultSet execQuery(String strSQL) throws SQLException{
 		ResultSet rs;
 
@@ -56,7 +57,7 @@ public class DB_Connection {
 			log.e(e);
 			throw e;
 		}
-		
+
 		return rs;
 	}
 
@@ -72,7 +73,7 @@ public class DB_Connection {
 			ret = false;
 			throw e;
 		}
-		
+
 		return ret;
 	}
 }
